@@ -21,6 +21,7 @@ function Header() {
   const { user, logout } = useAuth();
   const [location, navigate] = useLocation();
   const [open, setOpen] = useState(false);
+  const closeMenu = () => setOpen(false);
   useEffect(() => {
     setOpen(false);
   }, [location]);
@@ -35,7 +36,7 @@ function Header() {
       <div className="header-inner">
         <Link href="/" className="brand" aria-label="Caragua360 — página inicial">
           <span className="brand-word">
-            CARAGUA360<span className="brand-dot">.</span>
+            CARAGUA360<span className="brand-dot"></span>
           </span>
           <BrazilFlag />
         </Link>
@@ -44,36 +45,36 @@ function Header() {
     type="button"
     className="nav-toggle"
     aria-expanded={open}
-    aria-label="Abrir menu"
+    aria-label={open ? "Fechar menu" : "Abrir menu"}
     onClick={() => setOpen((value) => !value)}
   >
           Menu
         </button>
 
         <nav className={`main-nav ${open ? "is-open" : ""}`} aria-label="Navegação principal">
-          <Link href="/" className={`nav-link ${isActive("/") ? "is-active" : ""}`}>
+          <Link href="/" onClick={closeMenu} className={`nav-link ${isActive("/") ? "is-active" : ""}`}>
             Início
           </Link>
           <div className="nav-item">
-            <Link href="/explore" className={`nav-link ${isActive("/explore") || isActive("/destino") || isActive("/detalhe") ? "is-active" : ""}`}>
-              Explore<span className="nav-caret">▼</span>
+            <Link href="/explore" onClick={closeMenu} className={`nav-link ${isActive("/explore") || isActive("/destino") || isActive("/detalhe") ? "is-active" : ""}`}>
+              Explore<span className="nav-caret nav_sumir">▼</span>
             </Link>
             <div className="nav-dropdown">
-              {EXPLORE_ITEMS.map((item) => <Link key={item.href} href={item.href}>
+              {EXPLORE_ITEMS.map((item) => <Link key={item.href} href={item.href} onClick={closeMenu}>
                   {item.label}
                 </Link>)}
             </div>
           </div>
-          <Link href="/eventos" className={`nav-link ${isActive("/eventos") ? "is-active" : ""}`}>
+          <Link href="/eventos" onClick={closeMenu} className={`nav-link ${isActive("/eventos") ? "is-active" : ""}`}>
             Eventos
           </Link>
-          <Link href="/preservacao" className={`nav-link ${isActive("/preservacao") ? "is-active" : ""}`}>
+          <Link href="/preservacao" onClick={closeMenu} className={`nav-link ${isActive("/preservacao") ? "is-active" : ""}`}>
             Preservação
           </Link>
-          <Link href="/roteiros" className={`nav-link ${isActive("/roteiros") ? "is-active" : ""}`}>
+          <Link href="/roteiros" onClick={closeMenu} className={`nav-link ${isActive("/roteiros") ? "is-active" : ""}`}>
             Roteiros
           </Link>
-          {user?.role === "ADMIN" && <Link href="/admin" className={`nav-link ${isActive("/admin") ? "is-active" : ""}`}>
+          {user?.role === "ADMIN" && <Link href="/admin" onClick={closeMenu} className={`nav-link ${isActive("/admin") ? "is-active" : ""}`}>
               Admin
             </Link>}
         </nav>
